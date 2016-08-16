@@ -1,16 +1,19 @@
-#ifndef NOTESTRING
-#define NOTESTRING
+#ifndef GUITAR
+#define GUITAR
 using namespace std;
-// notestring object
-class notestring
+// guitar object
+class guitar
 {
 public:
     // constructor
-    notestring(char basenote);
-    // the base string note
-    char base_note;
+    guitar();
     // where to store the notes
-    vector<char> notes;
+    vector<char> Estr;
+    vector<char> Astr;
+    vector<char> Dstr;
+    vector<char> Gstr;
+    vector<char> Bstr;
+    vector<char> estr;
     // add notes to the solo
     void add_notes(string new_notes);
     // draw function

@@ -4,7 +4,7 @@
 #include <menu.h>
 #include <string>
 #include <vector>
-#include "notestring.h"
+#include "guitar.h"
 using namespace std;
 
 #define ARRAY_SIZE(a) (sizeof(a) / sizeof(a[0]))
@@ -16,22 +16,39 @@ void configure_main_menu(MENU *my_menu, WINDOW *menu_win, WINDOW *menu_sub);
 void func(char *name);
 
 string choices[] = {
-    "Choice 1", "1",
-    "Choice 2", "2",
-    "Choice 3", "3",
-    "Choice 4", "4",
-    "Choice 5", "5",
-    "Choice 6", "6",
-    "Choice 7", "7",
-    "Choice 8", "8",
-    "Choice 9", "9",
-    "Choice 10", "a",
-    "Choice 11", "b",
-    "Choice 12", "c",
-    "Choice 13", "d",
-    "Choice 14", "e",
-    "Choice 15", "f",
-    " "
+    "Choice 1",
+    "Choice 2",
+    "Choice 3",
+    "Choice 4",
+    "Choice 5",
+    "Choice 6",
+    "Choice 7",
+    "Choice 8",
+    "Choice 9",
+    "Choice 10",
+    "Choice 11",
+    "Choice 12",
+    "Choice 13",
+    "Choice 14",
+    "Choice 15",
+};
+
+string descriptions[] = {
+    "Description 1",
+    "Description 2",
+    "Description 3",
+    "Description 4",
+    "Description 5",
+    "Description 6",
+    "Description 7",
+    "Description 8",
+    "Description 9",
+    "Description 10",
+    "Description 11",
+    "Description 12",
+    "Description 13",
+    "Description 14",
+    "Description 15",
 };
 
 int main()
@@ -62,7 +79,7 @@ int main()
     my_items = (ITEM **)calloc(choicenum+1, sizeof(ITEM *));
     for (int i = 0; i < choicenum; i++)
     {
-        my_items[i] = new_item(choices[2*i].c_str(), choices[30].c_str());
+        my_items[i] = new_item(choices[i].c_str(), descriptions[i].c_str());
     }
     my_items[choicenum+1] = (ITEM *)NULL;
     // create the main menu, as well as its main and sub windows
@@ -104,8 +121,10 @@ int main()
         }
     }   
 
-    free_item(my_items[0]);
-    free_item(my_items[1]);
+    for (int i = 0; i < choicenum; i++)
+    {
+        free_item(my_items[i]);
+    }
     free_menu(my_menu); 
 
     // end curses mode
