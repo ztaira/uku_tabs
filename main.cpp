@@ -14,7 +14,7 @@ void configure_settings();
 void open_screen();
 void draw_border(WINDOW *win, bool flag);
 void configure_main_menu(MENU *my_menu, WINDOW *menu_win, WINDOW *menu_sub);
-void func(char *name);
+void moveguitar(char *name, guitar &myguitar);
 
 string choices[] = {
     "Choice 1",
@@ -90,7 +90,7 @@ int main()
 
     // making the instruments
     guitar myguitar = guitar(5, 40, win_height, win_width);
-    myguitar.add_notes("hotelcaliforniaintro.txt");
+    myguitar.add_notes("hotelintro.txt");
     myguitar.draw();
 
     wrefresh(main_menu_win);
@@ -118,7 +118,7 @@ int main()
                 selection_name = (char *)item_name(cur);
                 if (strcmp(choices[0].c_str(), selection_name) == 0)
                 {
-                    func(selection_name);
+                    moveguitar(selection_name, myguitar);
                 }
                 pos_menu_cursor(my_menu);
                 break;
@@ -206,7 +206,9 @@ void configure_main_menu(MENU *my_menu, WINDOW *main_menu_win,
     post_menu(my_menu);
 }
 
-void func(char *name)
+void moveguitar(char *name, guitar &myguitar)
 {   
+    myguitar.move();
     mvprintw(40, 40, "Item selected is : %s", name);
+    wrefresh(stdscr);
 }
