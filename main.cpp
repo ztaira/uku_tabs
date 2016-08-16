@@ -10,13 +10,25 @@ using namespace std;
 
 void open_screen();
 void reset_screen(int wheight, int wwidth);
-void draw_border(WINDOW *win);
+void draw_border(WINDOW *win, bool flag);
 void configure_settings();
 
 string choices[] = {
     "Choice 1",
     "Choice 2",
-    "Choice 3"
+    "Choice 3",
+    "Choice 4",
+    "Choice 5",
+    "Choice 6",
+    "Choice 7",
+    "Choice 8",
+    "Choice 9",
+    "Choice 10",
+    "Choice 11",
+    "Choice 12",
+    "Choice 13",
+    "Choice 14",
+    "Choice 15",
 };
 
 int main()
@@ -48,13 +60,13 @@ int main()
     my_items[choicenum+1] = (ITEM *)NULL;
     // create the menu in a window
     my_menu = new_menu((ITEM **)my_items);
-    main_menu_win = newwin(30, 30, 0, 0);
+    main_menu_win = newwin(22, 32, 0, 0);
     wattron(main_menu_win, COLOR_PAIR(8));
     keypad(main_menu_win, true);
     set_menu_win(my_menu, main_menu_win);
-    set_menu_sub(my_menu, derwin(main_menu_win, 28, 28, 1, 1));
+    set_menu_sub(my_menu, derwin(main_menu_win, 20, 30, 1, 1));
     post_menu(my_menu);
-    draw_border(main_menu_win);
+    draw_border(main_menu_win, true);
     refresh();
     while((ch = getch()) != 'q')
     {
@@ -62,12 +74,14 @@ int main()
         {
             case 'j':
                 menu_driver(my_menu, REQ_DOWN_ITEM);
-                // refresh();
+                draw_border(main_menu_win, true);
+                touchwin(main_menu_win);
                 wrefresh(main_menu_win);
                 break;
             case 'k':
                 menu_driver(my_menu, REQ_UP_ITEM);
-                // refresh();
+                draw_border(main_menu_win, false);
+                touchwin(main_menu_win);
                 wrefresh(main_menu_win);
                 break;
         }
@@ -120,8 +134,19 @@ void open_screen()
     mvprintw(y*2-1, 1, " ");
 }
 
-void draw_border(WINDOW *win)
+void draw_border(WINDOW *win, bool flag)
 {
-    wborder(win, '|', '|', '-', '-', '+', '+', '+', '+');
+    if (flag == true)
+    {
+        wborder(win, '|', '|', '-', '-', '+', '+', '+', '+');
+    }
+    else
+    {
+        wborder(win, ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ');
+    }
     wrefresh(win);
+}
+
+void create_main_menu(WINDOW *win, bool flag)
+{
 }
