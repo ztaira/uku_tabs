@@ -13,32 +13,35 @@ void configure_settings();
 void open_screen();
 void draw_border(WINDOW *win, bool flag);
 void configure_main_menu(MENU *my_menu, WINDOW *menu_win, WINDOW *menu_sub);
+void func(char *name);
 
 string choices[] = {
-    "Choice 1",
-    "Choice 2",
-    "Choice 3",
-    "Choice 4",
-    "Choice 5",
-    "Choice 6",
-    "Choice 7",
-    "Choice 8",
-    "Choice 9",
-    "Choice 10",
-    "Choice 11",
-    "Choice 12",
-    "Choice 13",
-    "Choice 14",
-    "Choice 15",
+    "Choice 1", "1",
+    "Choice 2", "2",
+    "Choice 3", "3",
+    "Choice 4", "4",
+    "Choice 5", "5",
+    "Choice 6", "6",
+    "Choice 7", "7",
+    "Choice 8", "8",
+    "Choice 9", "9",
+    "Choice 10", "a",
+    "Choice 11", "b",
+    "Choice 12", "c",
+    "Choice 13", "d",
+    "Choice 14", "e",
+    "Choice 15", "f",
+    " "
 };
 
 int main()
 {
-    int ch;
-    // create a screen
+    int ch, win_height, win_width;
+    // create a screen and configure it
     // get the screen's height and width
     initscr();
     configure_settings();
+    getmaxyx(stdscr, win_height, win_width);
     // print the opening screen, which won't go away until a key is pressed
     open_screen();
     refresh();
@@ -51,19 +54,21 @@ int main()
     ITEM **my_items;
     WINDOW *main_menu_win;
     WINDOW *main_menu_sub;
+    void (*funcpointer)(char *) = &func;
+    void *voidpointer = &funcpointer;
     int choicenum;
     choicenum = ARRAY_SIZE(choices);
     // get the menu choices and make them into menu items
     my_items = (ITEM **)calloc(choicenum+1, sizeof(ITEM *));
     for (int i = 0; i < choicenum; i++)
     {
-        my_items[i] = new_item(choices[i].c_str(), choices[i].c_str());
+        my_items[i] = new_item(choices[2*i].c_str(), choices[30].c_str());
     }
     my_items[choicenum+1] = (ITEM *)NULL;
     // create the main menu, as well as its main and sub windows
     my_menu = new_menu((ITEM **)my_items);
-    main_menu_win = newwin(22, 32, 0, 0);
-    main_menu_sub = derwin(main_menu_win, 20, 30, 1, 1);
+    main_menu_win = newwin(win_height, 32, 0, 0);
+    main_menu_sub = derwin(main_menu_win, win_height-2, 30, 1, 1);
     // configure the main menu
     configure_main_menu(my_menu, main_menu_win, main_menu_sub);
     wrefresh(main_menu_win);
@@ -73,16 +78,29 @@ int main()
         {
             case 'j':
                 menu_driver(my_menu, REQ_DOWN_ITEM);
-                draw_border(main_menu_win, true);
                 touchwin(main_menu_win);
                 wrefresh(main_menu_win);
                 break;
             case 'k':
                 menu_driver(my_menu, REQ_UP_ITEM);
-                draw_border(main_menu_win, false);
                 touchwin(main_menu_win);
                 wrefresh(main_menu_win);
                 break;
+            // enter key is pressed. The user has selected something.
+            case 10:
+            {
+                ITEM *cur;
+                char *selection_name;
+                // find the name of the selected item
+                cur = current_item(my_menu);
+                selection_name = (char *)item_name(cur);
+                if (strcmp(choices[0].c_str(), selection_name) == 0)
+                {
+                    func(selection_name);
+                }
+                pos_menu_cursor(my_menu);
+                break;
+            }
         }
     }   
 
@@ -162,4 +180,9 @@ void configure_main_menu(MENU *my_menu, WINDOW *main_menu_win,
     set_menu_sub(my_menu, main_menu_sub);
     // post the menu
     post_menu(my_menu);
+}
+
+void func(char *name)
+{   
+    mvprintw(40, 40, "Item selected is : %s", name);
 }

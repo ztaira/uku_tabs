@@ -8,5 +8,11 @@ notestring::notestring(char basenote)
 
 notestring::add_notes(string new_notes)
 {
-    int x;
+    if (new_notes[0] == base_note)
+    {
+        for (int i=1; i<new_notes.length(); i++)
+        {
+            notes.push_back(new_notes[i]);
+        }
+    }
 }
