@@ -1,9 +1,10 @@
+#include <fstream>
 #include <iostream>
 #include <stdlib.h>
-#include <ncurses.h>
-#include <menu.h>
 #include <string>
 #include <vector>
+#include <ncurses.h>
+#include <menu.h>
 #include "guitar.h"
 using namespace std;
 
@@ -71,8 +72,6 @@ int main()
     ITEM **my_items;
     WINDOW *main_menu_win;
     WINDOW *main_menu_sub;
-    void (*funcpointer)(char *) = &func;
-    void *voidpointer = &funcpointer;
     int choicenum;
     choicenum = ARRAY_SIZE(choices);
     // get the menu choices and make them into menu items
@@ -88,6 +87,12 @@ int main()
     main_menu_sub = derwin(main_menu_win, win_height-2, 30, 1, 1);
     // configure the main menu
     configure_main_menu(my_menu, main_menu_win, main_menu_sub);
+
+    // making the instruments
+    guitar myguitar = guitar(5, 40, win_height, win_width);
+    myguitar.add_notes("hotelcaliforniaintro.txt");
+    myguitar.draw();
+
     wrefresh(main_menu_win);
     while((ch = getch()) != 'q')
     {

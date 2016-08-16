@@ -1,2 +1,2 @@
-output: main.cpp 
-	g++ main.cpp -lmenu -lncurses -o output
+output: main.cpp guitar.cpp
+	g++ main.cpp guitar.cpp -lmenu -lncurses -o output
