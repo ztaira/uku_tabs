@@ -4,14 +4,15 @@
 #include <menu.h>
 #include <string>
 #include <vector>
+#include "notestring.h"
 using namespace std;
 
 #define ARRAY_SIZE(a) (sizeof(a) / sizeof(a[0]))
 
-void open_screen();
-void reset_screen(int wheight, int wwidth);
-void draw_border(WINDOW *win, bool flag);
 void configure_settings();
+void open_screen();
+void draw_border(WINDOW *win, bool flag);
+void configure_main_menu(MENU *my_menu, WINDOW *menu_win, WINDOW *menu_sub);
 
 string choices[] = {
     "Choice 1",
@@ -49,6 +50,7 @@ int main()
     MENU *my_menu;
     ITEM **my_items;
     WINDOW *main_menu_win;
+    WINDOW *main_menu_sub;
     int choicenum;
     choicenum = ARRAY_SIZE(choices);
     // get the menu choices and make them into menu items
@@ -58,16 +60,13 @@ int main()
         my_items[i] = new_item(choices[i].c_str(), choices[i].c_str());
     }
     my_items[choicenum+1] = (ITEM *)NULL;
-    // create the menu in a window
+    // create the main menu, as well as its main and sub windows
     my_menu = new_menu((ITEM **)my_items);
     main_menu_win = newwin(22, 32, 0, 0);
-    wattron(main_menu_win, COLOR_PAIR(8));
-    keypad(main_menu_win, true);
-    set_menu_win(my_menu, main_menu_win);
-    set_menu_sub(my_menu, derwin(main_menu_win, 20, 30, 1, 1));
-    post_menu(my_menu);
-    draw_border(main_menu_win, true);
-    refresh();
+    main_menu_sub = derwin(main_menu_win, 20, 30, 1, 1);
+    // configure the main menu
+    configure_main_menu(my_menu, main_menu_win, main_menu_sub);
+    wrefresh(main_menu_win);
     while((ch = getch()) != 'q')
     {
         switch(ch)
@@ -147,6 +146,20 @@ void draw_border(WINDOW *win, bool flag)
     wrefresh(win);
 }
 
-void create_main_menu(WINDOW *win, bool flag)
+void configure_main_menu(MENU *my_menu, WINDOW *main_menu_win,
+        WINDOW *main_menu_sub)
 {
+    // set the border color and draw a border
+    wattron(main_menu_win, COLOR_PAIR(8));
+    draw_border(main_menu_win, true);
+    // set the color of selected and unselected items
+    set_menu_fore(my_menu, COLOR_PAIR(8) | A_REVERSE);
+    set_menu_back(my_menu, COLOR_PAIR(8));
+    // enable keypad
+    keypad(main_menu_win, true);
+    // set the main and sub windows
+    set_menu_win(my_menu, main_menu_win);
+    set_menu_sub(my_menu, main_menu_sub);
+    // post the menu
+    post_menu(my_menu);
 }
