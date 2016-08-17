@@ -6,6 +6,7 @@
 #include <ncurses.h>
 #include <menu.h>
 #include "guitar.h"
+#include "ukulele.h"
 using namespace std;
 
 #define ARRAY_SIZE(a) (sizeof(a) / sizeof(a[0]))
@@ -15,6 +16,7 @@ void open_screen();
 void draw_border(WINDOW *win, bool flag);
 void configure_main_menu(MENU *my_menu, WINDOW *menu_win, WINDOW *menu_sub);
 void moveguitar(char *name, guitar &myguitar);
+void moveukulele(char *name, ukulele &myukulele);
 
 string choices[] = {
     "Choice 1",
@@ -89,9 +91,12 @@ int main()
     configure_main_menu(my_menu, main_menu_win, main_menu_sub);
 
     // making the instruments
-    guitar myguitar = guitar(5, 40, win_height, win_width);
+    guitar myguitar = guitar(7, 35, win_height, win_width);
     myguitar.add_notes("hotelintro.txt");
     myguitar.draw();
+    ukulele myukulele = ukulele(20, 35, win_height, win_width);
+    myukulele.add_notes("doiwannaknow.txt");
+    myukulele.draw();
 
     wrefresh(main_menu_win);
     while((ch = getch()) != 'q')
@@ -119,6 +124,10 @@ int main()
                 if (strcmp(choices[0].c_str(), selection_name) == 0)
                 {
                     moveguitar(selection_name, myguitar);
+                }
+                else if (strcmp(choices[1].c_str(), selection_name) == 0)
+                {
+                    moveukulele(selection_name, myukulele);
                 }
                 pos_menu_cursor(my_menu);
                 break;
@@ -209,6 +218,13 @@ void configure_main_menu(MENU *my_menu, WINDOW *main_menu_win,
 void moveguitar(char *name, guitar &myguitar)
 {   
     myguitar.move();
+    mvprintw(40, 40, "Item selected is : %s", name);
+    wrefresh(stdscr);
+}
+
+void moveukulele(char *name, ukulele &myukulele)
+{
+    myukulele.move();
     mvprintw(40, 40, "Item selected is : %s", name);
     wrefresh(stdscr);
 }

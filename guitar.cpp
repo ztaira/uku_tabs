@@ -11,7 +11,7 @@ guitar::guitar(int y, int x, int wheight, int wwidth)
     win_height = wheight;
     win_width = wwidth;
     height = 6;
-    width = win_width - 40;
+    width = 120;
 }
 
 void guitar::add_notes(string notes_file)
@@ -95,40 +95,64 @@ void guitar::draw()
 {
     // print e string
     mvprintw(ul_y, ul_x, "e|");
-    for (int i=note_pos; i<note_pos+win_width-ul_x-2; i++)
+    for (int i=note_pos; i<note_pos+width; i++)
     {
-        addch(estr[i]);
+        if (i<Astr.size())
+        {
+            addch(estr[i]);
+        }
     }
+    addch('|');
     // print B string
     mvprintw(ul_y+1, ul_x, "B|");
-    for (int i=note_pos; i<note_pos+win_width-ul_x-2; i++)
+    for (int i=note_pos; i<note_pos+width; i++)
     {
-        addch(Bstr[i]);
+        if (i<Astr.size())
+        {
+            addch(Bstr[i]);
+        }
     }
+    addch('|');
     // print G string
     mvprintw(ul_y+2, ul_x, "G|");
-    for (int i=note_pos; i<note_pos+win_width-ul_x-2; i++)
+    for (int i=note_pos; i<note_pos+width; i++)
     {
-        addch(Gstr[i]);
+        if (i<Astr.size())
+        {
+            addch(Gstr[i]);
+        }
     }
+    addch('|');
     // print D string
     mvprintw(ul_y+3, ul_x, "D|");
-    for (int i=note_pos; i<note_pos+win_width-ul_x-2; i++)
+    for (int i=note_pos; i<note_pos+width; i++)
     {
-        addch(Dstr[i]);
+        if (i<Astr.size())
+        {
+            addch(Dstr[i]);
+        }
     }
+    addch('|');
     // print A string
     mvprintw(ul_y+4, ul_x, "A|");
-    for (int i=note_pos; i<note_pos+win_width-ul_x-2; i++)
+    for (int i=note_pos; i<note_pos+width; i++)
     {
-        addch(Astr[i]);
+        if (i<Astr.size())
+        {
+            addch(Astr[i]);
+        }
     }
+    addch('|');
     // print E string
     mvprintw(ul_y+5, ul_x, "E|");
-    for (int i=note_pos; i<note_pos+win_width-ul_x-2; i++)
+    for (int i=note_pos; i<note_pos+width; i++)
     {
-        addch(Estr[i]);
+        if (i<Astr.size())
+        {
+            addch(Estr[i]);
+        }
     }
+    addch('|');
 }
 
 void guitar::move()
