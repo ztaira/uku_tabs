@@ -91,10 +91,10 @@ int main()
     configure_main_menu(my_menu, main_menu_win, main_menu_sub);
 
     // making the instruments
-    guitar myguitar = guitar(7, 35, win_height, win_width);
+    guitar myguitar = guitar(4, 35, win_height, win_width);
     myguitar.add_notes("hotelintro.txt");
     myguitar.draw();
-    ukulele myukulele = ukulele(20, 35, win_height, win_width);
+    ukulele myukulele = ukulele(29, 35, win_height, win_width);
     myukulele.add_notes("doiwannaknow.txt");
     myukulele.draw();
 

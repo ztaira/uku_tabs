@@ -10,7 +10,7 @@ ukulele::ukulele(int y, int x, int wheight, int wwidth)
     ul_y = y;
     win_height = wheight;
     win_width = wwidth;
-    height = 4;
+    height = 6;
     width = 120;
 }
 
@@ -27,7 +27,7 @@ void ukulele::add_notes(string notes_file)
     {
         if (line[0] == 'G')
         {
-            for (int i=1; i<line.length(); i++)
+            for (int i=2; i<line.length(); i++)
             {
                 if (line[i] != ' ')
                 {
@@ -37,7 +37,7 @@ void ukulele::add_notes(string notes_file)
         }
         else if (line[0] == 'C')
         {
-            for (int i=1; i<line.length(); i++)
+            for (int i=2; i<line.length(); i++)
             {
                 if (line[i] != ' ')
                 {
@@ -47,7 +47,7 @@ void ukulele::add_notes(string notes_file)
         }
         else if (line[0] == 'E')
         {
-            for (int i=1; i<line.length(); i++)
+            for (int i=2; i<line.length(); i++)
             {
                 if (line[i] != ' ')
                 {
@@ -57,7 +57,7 @@ void ukulele::add_notes(string notes_file)
         }
         else if (line[0] == 'A')
         {
-            for (int i=1; i<line.length(); i++)
+            for (int i=2; i<line.length(); i++)
             {
                 if (line[i] != ' ')
                 {
@@ -71,46 +71,56 @@ void ukulele::add_notes(string notes_file)
 
 void ukulele::draw()
 {
-    // print A string
-    mvprintw(ul_y, ul_x, "A|");
-    for (int i=note_pos; i<note_pos+width; i++)
+    for (int mult=0; mult<3; mult++)
     {
-        if (i<Astr.size())
+        // print A string
+        mvprintw(ul_y+mult*height, ul_x, "A|");
+        for (int i=note_pos+mult*width; i<note_pos+mult*width+width; i++)
         {
-            addch(Astr[i]);
+            if (i<Astr.size())
+            {
+                addch(Astr[i]);
+            }
         }
-    }
-    addch('|');
-    // print E string
-    mvprintw(ul_y+1, ul_x, "E|");
-    for (int i=note_pos; i<note_pos+width; i++)
-    {
-        if (i<Astr.size())
+        addch('|');
+        addch(' ');
+        // print E string
+        mvprintw(ul_y+mult*height+1, ul_x, "E|");
+        for (int i=note_pos+mult*width; i<note_pos+mult*width+width; i++)
         {
-            addch(Estr[i]);
+            if (i<Astr.size())
+            {
+                addch(Estr[i]);
+            }
         }
-    }
-    addch('|');
-    // print C string
-    mvprintw(ul_y+3, ul_x, "C|");
-    for (int i=note_pos; i<note_pos+width; i++)
-    {
-        if (i<Astr.size())
+        addch('|');
+        addch(' ');
+        // print E string
+        // print C string
+        mvprintw(ul_y+mult*height+3, ul_x, "C|");
+        for (int i=note_pos+mult*width; i<note_pos+mult*width+width; i++)
         {
-            addch(Cstr[i]);
+            if (i<Astr.size())
+            {
+                addch(Cstr[i]);
+            }
         }
-    }
-    addch('|');
-    // print G string
-    mvprintw(ul_y+2, ul_x, "G|");
-    for (int i=note_pos; i<note_pos+width; i++)
-    {
-        if (i<Astr.size())
+        addch('|');
+        addch(' ');
+        // print E string
+        // print G string
+        mvprintw(ul_y+mult*height+2, ul_x, "G|");
+        for (int i=note_pos+mult*width; i<note_pos+mult*width+width; i++)
         {
-            addch(Gstr[i]);
+            if (i<Astr.size())
+            {
+                addch(Gstr[i]);
+            }
         }
+        addch('|');
+        addch(' ');
+        // print E string
     }
-    addch('|');
 }
 
 void ukulele::move()
