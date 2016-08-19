@@ -29,13 +29,8 @@ string choices[] = {
     "ghotelsolo2.txt",
     "ghotelend.txt",
     "udoiwannaknow.txt",
-    "Choice 9",
-    "Choice 10",
-    "Choice 11",
-    "Choice 12",
-    "Choice 13",
-    "Choice 14",
-    "Choice 15",
+    "uimyours.txt",
+    "usanteria.txt"
 };
 
 string descriptions[] = {
@@ -48,12 +43,7 @@ string descriptions[] = {
     " ",
     " ",
     " ",
-    " ",
-    " ",
-    " ",
-    " ",
-    " ",
-    " ",
+    " "
 };
 
 int main()
@@ -96,10 +86,10 @@ int main()
     // making the instruments
     guitar myguitar = guitar(4, 35, win_height, win_width);
     myguitar.add_notes("ghotelintro.txt");
-    myguitar.draw();
+    myguitar.draw(true);
     ukulele myukulele = ukulele(29, 35, win_height, win_width);
     myukulele.add_notes("udoiwannaknow.txt");
-    myukulele.draw();
+    myukulele.draw(true);
 
     wrefresh(main_menu_win);
     while((ch = getch()) != 'q')
@@ -273,7 +263,8 @@ void moveukulele(char *name, ukulele &myukulele)
 void guitarload(char *name, guitar &myguitar)
 {
     myguitar.add_notes(name);
-    myguitar.draw();
+    myguitar.draw(false);
+    myguitar.draw(true);
     mvprintw(40, 1, "Item selected is: %s", name);
     wrefresh(stdscr);
 }
@@ -281,7 +272,8 @@ void guitarload(char *name, guitar &myguitar)
 void ukuleleload(char *name, ukulele &myukulele)
 {
     myukulele.add_notes(name);
-    myukulele.draw();
+    myukulele.draw(false);
+    myukulele.draw(true);
     mvprintw(40, 1, "Item selected is: %s", name);
     wrefresh(stdscr);
 }

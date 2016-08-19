@@ -24,7 +24,7 @@ public:
     // add notes to the solo
     void add_notes(string notes_file);
     // draw function
-    void draw();
+    void draw(bool flag);
     void move();
 };
 #endif
