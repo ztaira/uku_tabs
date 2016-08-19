@@ -19,8 +19,8 @@ void moveguitar(char *name, guitar &myguitar);
 void moveukulele(char *name, ukulele &myukulele);
 
 string choices[] = {
-    "Choice 1",
-    "Choice 2",
+    "Scroll Guitar ",
+    "Scroll Ukulele",
     "Choice 3",
     "Choice 4",
     "Choice 5",
@@ -37,21 +37,21 @@ string choices[] = {
 };
 
 string descriptions[] = {
-    "Description 1",
-    "Description 2",
-    "Description 3",
-    "Description 4",
-    "Description 5",
-    "Description 6",
-    "Description 7",
-    "Description 8",
-    "Description 9",
-    "Description 10",
-    "Description 11",
-    "Description 12",
-    "Description 13",
-    "Description 14",
-    "Description 15",
+    " ",
+    " ",
+    " ",
+    " ",
+    " ",
+    " ",
+    " ",
+    " ",
+    " ",
+    " ",
+    " ",
+    " ",
+    " ",
+    " ",
+    " ",
 };
 
 int main()
@@ -85,8 +85,8 @@ int main()
     my_items[choicenum+1] = (ITEM *)NULL;
     // create the main menu, as well as its main and sub windows
     my_menu = new_menu((ITEM **)my_items);
-    main_menu_win = newwin(win_height, 32, 0, 0);
-    main_menu_sub = derwin(main_menu_win, win_height-2, 30, 1, 1);
+    main_menu_win = newwin(choicenum+2, 32, 3, 0);
+    main_menu_sub = derwin(main_menu_win, choicenum, 30, 1, 1);
     // configure the main menu
     configure_main_menu(my_menu, main_menu_win, main_menu_sub);
 
@@ -213,18 +213,28 @@ void configure_main_menu(MENU *my_menu, WINDOW *main_menu_win,
     set_menu_sub(my_menu, main_menu_sub);
     // post the menu
     post_menu(my_menu);
+    // print a title
+    wattron(stdscr, COLOR_PAIR(8));
+    mvprintw(0, 0, "+------------------------------+");
+    mvprintw(2, 0, "+------------------------------+");
+    mvprintw(1, 0, "|");
+    mvprintw(1, 31, "|");
+    wattron(stdscr, A_BOLD);
+    mvprintw(1, 14, "MENU");
+    wattroff(stdscr, A_BOLD);
+    wattroff(stdscr, COLOR_PAIR(8));
 }
 
 void moveguitar(char *name, guitar &myguitar)
 {   
     myguitar.move();
-    mvprintw(40, 40, "Item selected is : %s", name);
+    mvprintw(40, 1, "Item selected is: %s", name);
     wrefresh(stdscr);
 }
 
 void moveukulele(char *name, ukulele &myukulele)
 {
     myukulele.move();
-    mvprintw(40, 40, "Item selected is : %s", name);
+    mvprintw(40, 1, "Item selected is: %s", name);
     wrefresh(stdscr);
 }
