@@ -28,5 +28,7 @@ public:
     // draw function
     void draw();
     void move();
+    // write ukulele tab
+    void to_ukulele();
 };
 #endif
