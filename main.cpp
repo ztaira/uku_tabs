@@ -21,14 +21,14 @@ void guitarload(char *name, guitar &myguitar);
 void ukuleleload(char *name, ukulele &myukulele);
 
 string choices[] = {
-    "Scroll Guitar  ",
-    "Scroll Ukulele ",
+    "Scroll Guitar",
+    "Scroll Ukulele",
+    "Autoscroll",
     "ghotelintro.txt",
     "ghotelsolo1.txt",
     "ghotelsolo2.txt",
     "ghotelend.txt",
     "udoiwannaknow.txt",
-    "Choice 8",
     "Choice 9",
     "Choice 10",
     "Choice 11",
@@ -59,6 +59,7 @@ string descriptions[] = {
 int main()
 {
     int ch, win_height, win_width;
+    bool autoscroll = false;
     // create a screen and configure it
     // get the screen's height and width
     initscr();
@@ -131,22 +132,35 @@ int main()
                 {
                     moveukulele(selection_name, myukulele);
                 }
+                else if (strcmp(choices[2].c_str(), selection_name) == 0)
+                {
+                    if (autoscroll == true)
+                    {
+                        autoscroll = false;
+                    }
+                    else
+                    {
+                        autoscroll = true;
+                    }
+                }
                 else if (selection_name[0]=='g')
                 {
-                    mvprintw(42, 0, selection_name);
                     guitarload(selection_name, myguitar);
                 }
                 else if (selection_name[0]=='u')
                 {
-                    mvprintw(42, 0, selection_name);
                     ukuleleload(selection_name, myukulele);
-                }
-                else
-                {
-                    mvprintw(43, 0, selection_name);
                 }
                 pos_menu_cursor(my_menu);
                 break;
+            }
+            default:
+            {
+                if (autoscroll==true)
+                {
+                    myguitar.move();
+                    myukulele.move();
+                }
             }
         }
     }   
@@ -181,6 +195,7 @@ void configure_settings()
     init_pair(6, COLOR_BLUE, COLOR_BLACK);
     init_pair(7, COLOR_MAGENTA, COLOR_BLACK);
     init_pair(8, COLOR_CYAN, COLOR_BLACK);
+    timeout(250);
     wbkgd(stdscr, COLOR_PAIR(1));
 }
 
