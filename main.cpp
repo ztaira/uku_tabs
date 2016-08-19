@@ -17,15 +17,17 @@ void draw_border(WINDOW *win, bool flag);
 void configure_main_menu(MENU *my_menu, WINDOW *menu_win, WINDOW *menu_sub);
 void moveguitar(char *name, guitar &myguitar);
 void moveukulele(char *name, ukulele &myukulele);
+void guitarload(char *name, guitar &myguitar);
+void ukuleleload(char *name, ukulele &myukulele);
 
 string choices[] = {
-    "Scroll Guitar ",
-    "Scroll Ukulele",
-    "Choice 3",
-    "Choice 4",
-    "Choice 5",
-    "Choice 6",
-    "Choice 7",
+    "Scroll Guitar  ",
+    "Scroll Ukulele ",
+    "ghotelintro.txt",
+    "ghotelsolo1.txt",
+    "ghotelsolo2.txt",
+    "ghotelend.txt",
+    "udoiwannaknow.txt",
     "Choice 8",
     "Choice 9",
     "Choice 10",
@@ -92,10 +94,10 @@ int main()
 
     // making the instruments
     guitar myguitar = guitar(4, 35, win_height, win_width);
-    myguitar.add_notes("hotelintro.txt");
+    myguitar.add_notes("ghotelintro.txt");
     myguitar.draw();
     ukulele myukulele = ukulele(29, 35, win_height, win_width);
-    myukulele.add_notes("doiwannaknow.txt");
+    myukulele.add_notes("udoiwannaknow.txt");
     myukulele.draw();
 
     wrefresh(main_menu_win);
@@ -128,6 +130,20 @@ int main()
                 else if (strcmp(choices[1].c_str(), selection_name) == 0)
                 {
                     moveukulele(selection_name, myukulele);
+                }
+                else if (selection_name[0]=='g')
+                {
+                    mvprintw(42, 0, selection_name);
+                    guitarload(selection_name, myguitar);
+                }
+                else if (selection_name[0]=='u')
+                {
+                    mvprintw(42, 0, selection_name);
+                    ukuleleload(selection_name, myukulele);
+                }
+                else
+                {
+                    mvprintw(43, 0, selection_name);
                 }
                 pos_menu_cursor(my_menu);
                 break;
@@ -235,6 +251,22 @@ void moveguitar(char *name, guitar &myguitar)
 void moveukulele(char *name, ukulele &myukulele)
 {
     myukulele.move();
+    mvprintw(40, 1, "Item selected is: %s", name);
+    wrefresh(stdscr);
+}
+
+void guitarload(char *name, guitar &myguitar)
+{
+    myguitar.add_notes(name);
+    myguitar.draw();
+    mvprintw(40, 1, "Item selected is: %s", name);
+    wrefresh(stdscr);
+}
+
+void ukuleleload(char *name, ukulele &myukulele)
+{
+    myukulele.add_notes(name);
+    myukulele.draw();
     mvprintw(40, 1, "Item selected is: %s", name);
     wrefresh(stdscr);
 }
