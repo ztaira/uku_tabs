@@ -8,12 +8,8 @@ public:
     // constructor
     guitar(int x, int y, int wheight, int wwidth);
     // where to store the notes
-    vector<char> Estr;
-    vector<char> Astr;
-    vector<char> Dstr;
-    vector<char> Gstr;
-    vector<char> Bstr;
-    vector<char> estr;
+    // strings go E=0, e=5
+    vector<char> notestrings[6];
     // where you are in the song
     int note_pos;
     // where the guitar will be located in the terminal and how big it'll be

@@ -2,6 +2,7 @@
 #include <string>
 #include <fstream>
 #include <ncurses.h>
+#include <algorithm>
 #include "guitar.h"
 
 guitar::guitar(int y, int x, int wheight, int wwidth)
@@ -17,12 +18,10 @@ guitar::guitar(int y, int x, int wheight, int wwidth)
 void guitar::add_notes(string notes_file)
 {
     note_pos = 0;
-    Estr.clear();
-    Astr.clear();
-    Dstr.clear();
-    Gstr.clear();
-    Bstr.clear();
-    estr.clear();
+    for (int i=0; i<6; i++)
+    {
+        notestrings[i].clear();
+    }
     string line;
     ifstream workfile (notes_file);
     while (getline(workfile, line))
@@ -33,7 +32,7 @@ void guitar::add_notes(string notes_file)
             {
                 if (line[i] != ' ')
                 {
-                    Estr.push_back(line[i]);
+                    notestrings[0].push_back(line[i]);
                 }
             }
         }
@@ -43,7 +42,7 @@ void guitar::add_notes(string notes_file)
             {
                 if (line[i] != ' ')
                 {
-                    Astr.push_back(line[i]);
+                    notestrings[1].push_back(line[i]);
                 }
             }
         }
@@ -53,7 +52,7 @@ void guitar::add_notes(string notes_file)
             {
                 if (line[i] != ' ')
                 {
-                    Dstr.push_back(line[i]);
+                    notestrings[2].push_back(line[i]);
                 }
             }
         }
@@ -63,7 +62,7 @@ void guitar::add_notes(string notes_file)
             {
                 if (line[i] != ' ')
                 {
-                    Gstr.push_back(line[i]);
+                    notestrings[3].push_back(line[i]);
                 }
             }
         }
@@ -73,7 +72,7 @@ void guitar::add_notes(string notes_file)
             {
                 if (line[i] != ' ')
                 {
-                    Bstr.push_back(line[i]);
+                    notestrings[4].push_back(line[i]);
                 }
             }
         }
@@ -83,7 +82,7 @@ void guitar::add_notes(string notes_file)
             {
                 if (line[i] != ' ')
                 {
-                    estr.push_back(line[i]);
+                    notestrings[5].push_back(line[i]);
                 }
             }
         }
@@ -96,17 +95,17 @@ void guitar::draw(bool flag)
     for (int mult=0; mult<3; mult++)
     {
         // print e string
-        draw_string(estr, mult, 'e', 0, flag);
+        draw_string(notestrings[5], mult, 'e', 0, flag);
         // print B string
-        draw_string(Bstr, mult, 'B', 1, flag);
+        draw_string(notestrings[4], mult, 'B', 1, flag);
         // print G string
-        draw_string(Gstr, mult, 'G', 2, flag);
+        draw_string(notestrings[3], mult, 'G', 2, flag);
         // print D string
-        draw_string(Dstr, mult, 'D', 3, flag);
+        draw_string(notestrings[2], mult, 'D', 3, flag);
         // print A string
-        draw_string(Astr, mult, 'A', 4, flag);
+        draw_string(notestrings[1], mult, 'A', 4, flag);
         // print E string
-        draw_string(Estr, mult, 'E', 5, flag);
+        draw_string(notestrings[0], mult, 'E', 5, flag);
     }
 }
 
@@ -120,19 +119,13 @@ void guitar::move()
 void guitar::to_ukulele()
 {
     vector<char> uku_tab;
-    for (int j = 0; j<Astr.size(); j++)
+    char notes[6];
+    int notecount;
+    for (int i=0; i<notestrings[0].size();i++)
     {
-        if (Estr[j] == '-' &&
-                Astr[j] == '-' &&
-                Dstr[j] == '-' &&
-                Gstr[j] == '-' &&
-                Gstr[j] == '-' &&
-                estr[j] == '-')
+        for (int i=0; i<6; i++)
         {
-            uku_tab.push_back('-');
-        }
-        else
-        {
+            notes[i] = notestrings[i][0];
         }
     }
 }
