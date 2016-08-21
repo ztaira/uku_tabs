@@ -74,68 +74,13 @@ void ukulele::draw(bool flag)
     for (int mult=0; mult<3; mult++)
     {
         // print A string
-        mvprintw(ul_y+mult*height, ul_x, "A|");
-        for (int i=note_pos+mult*width; i<note_pos+mult*width+width; i++)
-        {
-            if (i<Astr.size() && flag == true)
-            {
-                addch(Astr[i]);
-            }
-            else
-            {
-                addch(' ');
-            }
-        }
-        addch('|');
-        addch(' ');
+        draw_string(Astr, mult, 'A', 0, flag);
         // print E string
-        mvprintw(ul_y+mult*height+1, ul_x, "E|");
-        for (int i=note_pos+mult*width; i<note_pos+mult*width+width; i++)
-        {
-            if (i<Astr.size() && flag == true)
-            {
-                addch(Estr[i]);
-            }
-            else
-            {
-                addch(' ');
-            }
-        }
-        addch('|');
-        addch(' ');
-        // print E string
+        draw_string(Estr, mult, 'E', 1, flag);
         // print C string
-        mvprintw(ul_y+mult*height+3, ul_x, "C|");
-        for (int i=note_pos+mult*width; i<note_pos+mult*width+width; i++)
-        {
-            if (i<Astr.size() && flag == true)
-            {
-                addch(Cstr[i]);
-            }
-            else
-            {
-                addch(' ');
-            }
-        }
-        addch('|');
-        addch(' ');
-        // print E string
+        draw_string(Cstr, mult, 'C', 2, flag);
         // print G string
-        mvprintw(ul_y+mult*height+2, ul_x, "G|");
-        for (int i=note_pos+mult*width; i<note_pos+mult*width+width; i++)
-        {
-            if (i<Astr.size() && flag == true)
-            {
-                addch(Gstr[i]);
-            }
-            else
-            {
-                addch(' ');
-            }
-        }
-        addch('|');
-        addch(' ');
-        // print E string
+        draw_string(Gstr, mult, 'G', 3, flag);
     }
 }
 
@@ -144,4 +89,24 @@ void ukulele::move()
     draw(false);
     note_pos+=1;
     draw(true);
+}
+
+void ukulele::draw_string(vector<char> &notestring, int mult, char stringname,
+        int offset, bool flag)
+{
+    mvaddch(ul_y+mult*height+offset, ul_x, stringname);
+    addch('|');
+    for (int i=note_pos+mult*width; i<note_pos+mult*width+width; i++)
+    {
+        if (i<notestring.size() && flag == true)
+        {
+            addch(notestring[i]);
+        }
+        else
+        {
+            addch(' ');
+        }
+    }
+    addch('|');
+    addch(' ');
 }

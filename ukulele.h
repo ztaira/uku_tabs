@@ -26,5 +26,8 @@ public:
     // draw function
     void draw(bool flag);
     void move();
+    // to modularize draw method
+    void draw_string(vector<char> &notestring, int mult, char stringname,
+            int offset, bool flag);
 };
 #endif

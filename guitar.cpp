@@ -96,95 +96,17 @@ void guitar::draw(bool flag)
     for (int mult=0; mult<3; mult++)
     {
         // print e string
-        mvprintw(ul_y+mult*height, ul_x, "e|");
-        for (int i=note_pos+mult*width; i<note_pos+mult*width+width; i++)
-        {
-            if (i<Astr.size() && flag == true)
-            {
-                addch(estr[i]);
-            }
-            else
-            {
-                addch(' ');
-            }
-        }
-        addch('|');
-        addch(' ');
+        draw_string(estr, mult, 'e', 0, flag);
         // print B string
-        mvprintw(ul_y+mult*height+1, ul_x, "B|");
-        for (int i=note_pos+mult*width; i<note_pos+mult*width+width; i++)
-        {
-            if (i<Astr.size() && flag == true)
-            {
-                addch(Bstr[i]);
-            }
-            else
-            {
-                addch(' ');
-            }
-        }
-        addch('|');
-        addch(' ');
+        draw_string(Bstr, mult, 'B', 1, flag);
         // print G string
-        mvprintw(ul_y+mult*height+2, ul_x, "G|");
-        for (int i=note_pos+mult*width; i<note_pos+mult*width+width; i++)
-        {
-            if (i<Astr.size() && flag == true)
-            {
-                addch(Gstr[i]);
-            }
-            else
-            {
-                addch(' ');
-            }
-        }
-        addch('|');
-        addch(' ');
+        draw_string(Gstr, mult, 'G', 2, flag);
         // print D string
-        mvprintw(ul_y+mult*height+3, ul_x, "D|");
-        for (int i=note_pos+mult*width; i<note_pos+mult*width+width; i++)
-        {
-            if (i<Astr.size() && flag == true)
-            {
-                addch(Dstr[i]);
-            }
-            else
-            {
-                addch(' ');
-            }
-        }
-        addch('|');
-        addch(' ');
+        draw_string(Dstr, mult, 'D', 3, flag);
         // print A string
-        mvprintw(ul_y+mult*height+4, ul_x, "A|");
-        for (int i=note_pos+mult*width; i<note_pos+mult*width+width; i++)
-        {
-            if (i<Astr.size() && flag == true)
-            {
-                addch(Astr[i]);
-            }
-            else
-            {
-                addch(' ');
-            }
-        }
-        addch('|');
-        addch(' ');
+        draw_string(Astr, mult, 'A', 4, flag);
         // print E string
-        mvprintw(ul_y+mult*height+5, ul_x, "E|");
-        for (int i=note_pos+mult*width; i<note_pos+mult*width+width; i++)
-        {
-            if (i<Astr.size() && flag == true)
-            {
-                addch(Estr[i]);
-            }
-            else
-            {
-                addch(' ');
-            }
-        }
-        addch('|');
-        addch(' ');
+        draw_string(Estr, mult, 'E', 5, flag);
     }
 }
 
@@ -193,4 +115,44 @@ void guitar::move()
     draw(false);
     note_pos+=1;
     draw(true);
+}
+
+void guitar::to_ukulele()
+{
+    vector<char> uku_tab;
+    for (int j = 0; j<Astr.size(); j++)
+    {
+        if (Estr[j] == '-' &&
+                Astr[j] == '-' &&
+                Dstr[j] == '-' &&
+                Gstr[j] == '-' &&
+                Gstr[j] == '-' &&
+                estr[j] == '-')
+        {
+            uku_tab.push_back('-');
+        }
+        else
+        {
+        }
+    }
+}
+
+void guitar::draw_string(vector<char> &notestring, int mult, char stringname,
+        int offset, bool flag)
+{
+    mvaddch(ul_y+mult*height+offset, ul_x, stringname);
+    addch('|');
+    for (int i=note_pos+mult*width; i<note_pos+mult*width+width; i++)
+    {
+        if (i<notestring.size() && flag == true)
+        {
+            addch(notestring[i]);
+        }
+        else
+        {
+            addch(' ');
+        }
+    }
+    addch('|');
+    addch(' ');
 }

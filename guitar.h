@@ -30,5 +30,8 @@ public:
     void move();
     // write ukulele tab
     void to_ukulele();
+    // to modularize draw method
+    void draw_string(vector<char> &notestring, int mult, char stringname,
+            int offset, bool flag);
 };
 #endif
