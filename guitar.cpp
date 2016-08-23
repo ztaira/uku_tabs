@@ -2,7 +2,6 @@
 #include <string>
 #include <fstream>
 #include <ncurses.h>
-#include <algorithm>
 #include "guitar.h"
 
 guitar::guitar(int y, int x, int wheight, int wwidth)
@@ -116,20 +115,6 @@ void guitar::move()
     draw(true);
 }
 
-void guitar::to_ukulele()
-{
-    vector<char> uku_tab;
-    char notes[6];
-    int notecount;
-    for (int i=0; i<notestrings[0].size();i++)
-    {
-        for (int i=0; i<6; i++)
-        {
-            notes[i] = notestrings[i][0];
-        }
-    }
-}
-
 void guitar::draw_string(vector<char> &notestring, int mult, char stringname,
         int offset, bool flag)
 {
@@ -148,4 +133,158 @@ void guitar::draw_string(vector<char> &notestring, int mult, char stringname,
     }
     addch('|');
     addch(' ');
+}
+
+
+void guitar::to_ukulele()
+{
+    vector<int> note_values;
+    note_values = get_note_values(notestrings);
+    write_ukulele_file(note_values);
+}
+
+vector<int> guitar::get_note_values(vector<char> ns_copy[6])
+{
+    // place to store tab, counting variables
+    vector<int> uku_tab;
+    int value;
+    char chord_space;
+    // iterate through each column and row of the 2d array
+    // if the first two characters are numbers, add their value to uku_tab
+    // else if the first character is a number, add its value to uku_tab
+    // else if the first character is a letter, add it to uku_tab
+    //      note: letter values are outside of the possible note value range
+    //      therefore, you can add the letter values as-is
+    // else if the first char is |, add it to uku_tab
+    // space the values out with '-' if they happen at the same time
+    // values for each note are calculated with conversion.txt
+    //
+    // summary of included characters:
+    // 0-99: added as their value as shown in conversion.txt
+    // a-z: added as their value
+    // |: added as its value
+    // everything else: added as '?'
+    for (int i=0; i<ns_copy[0].size();i++)
+    {
+        for (int j=0; j<6; j++)
+        {
+            if (ns_copy[j][i] != '-')
+            {
+                if (chord_space != 0)
+                {
+                    uku_tab.push_back(chord_space);
+                }
+                if (ns_copy[j][i] > 47 && ns_copy[j][i] < 58 &&
+                        ns_copy[j][i+1] > 47 && ns_copy[j][i+1] < 58)
+                {
+                    value = (ns_copy[j][i]-48)*10 + ns_copy[j][i]-48 + 
+                        get_guitar_offset(j);
+                    uku_tab.push_back(value);
+                    ns_copy[j][i] = '-';
+                    ns_copy[j][i+1] = '-';
+                    chord_space = '-';
+                }
+                else if (ns_copy[j][i] > 47 && ns_copy[j][i] < 58)
+                {
+                    uku_tab.push_back(ns_copy[j][i]-48 + get_guitar_offset(j));
+                    ns_copy[j][i] = '-';
+                    chord_space = '-';
+                }
+                else if (ns_copy[j][i] > 96 && ns_copy[j][i] < 123)
+                {
+                    uku_tab.push_back(ns_copy[j][i]);
+                    ns_copy[j][i] = '-';
+                    chord_space = '-';
+                }
+                else if (ns_copy[j][i] == '|')
+                {
+                    uku_tab.push_back('|');
+                    chord_space = '-';
+                }
+                else
+                {
+                    uku_tab.push_back('?');
+                    chord_space = '-';
+                }
+            }
+        }
+        uku_tab.push_back(-1);
+        chord_space = 0;
+    }
+    return uku_tab;
+}
+
+int guitar::get_guitar_offset(int stringnum)
+{
+    if (stringnum == 0)
+    {
+        return 0;
+    }
+    else if (stringnum == 1)
+    {
+        return 5;
+    }
+    else if (stringnum == 2)
+    {
+        return 10;
+    }
+    else if (stringnum == 3)
+    {
+        return 15;
+    }
+    else if (stringnum == 4)
+    {
+        return 19;
+    }
+    else if (stringnum == 5)
+    {
+        return 24;
+    }
+    return 0;
+}
+
+int guitar::get_ukulele_offset(int stringnum)
+{
+    if (stringnum == 0)
+    {
+        return 27;
+    }
+    else if (stringnum == 1)
+    {
+        return 20;
+    }
+    else if (stringnum == 2)
+    {
+        return 24;
+    }
+    else if (stringnum == 3)
+    {
+        return 29;
+    }
+    return 0;
+}
+
+void guitar::write_ukulele_file(vector<int> note_values)
+{
+    char character;
+    ofstream workfile;
+    workfile.open("test.txt");
+    for (int i=0; i<note_values.size(); i++)
+    {
+        if (note_values[i] == 45 || note_values[i] > 48)
+        {
+            character = note_values[i];
+            workfile << character;
+        }
+        else if (note_values[i] == -1)
+        {
+            workfile << "\n";
+        }
+        else
+        {
+            workfile << note_values[i];
+            workfile << ' ';
+        }
+    }
+    workfile.close();
 }

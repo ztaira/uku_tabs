@@ -24,6 +24,7 @@ string choices[] = {
     "Scroll Guitar",
     "Scroll Ukulele",
     "Autoscroll",
+    "Convert to UTab",
     "ghotelintro.txt",
     "ghotelsolo1.txt",
     "ghotelsolo2.txt",
@@ -34,6 +35,7 @@ string choices[] = {
 };
 
 string descriptions[] = {
+    " ",
     " ",
     " ",
     " ",
@@ -132,6 +134,10 @@ int main()
                     {
                         autoscroll = true;
                     }
+                }
+                else if (strcmp(choices[3].c_str(), selection_name) == 0)
+                {
+                    myguitar.to_ukulele();
                 }
                 else if (selection_name[0]=='g')
                 {

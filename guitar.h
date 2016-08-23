@@ -24,10 +24,13 @@ public:
     // draw function
     void draw(bool flag);
     void move();
-    // write ukulele tab
-    void to_ukulele();
-    // to modularize draw method
     void draw_string(vector<char> &notestring, int mult, char stringname,
             int offset, bool flag);
+    // write ukulele tab
+    void to_ukulele();
+    vector<int> get_note_values(vector<char> ns_copy[6]);
+    int get_guitar_offset(int stringnum);
+    int get_ukulele_offset(int stringnum);
+    void write_ukulele_file(vector<int> note_values);
 };
 #endif
