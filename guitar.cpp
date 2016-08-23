@@ -25,65 +25,62 @@ void guitar::add_notes(string notes_file)
     ifstream workfile (notes_file);
     while (getline(workfile, line))
     {
-        if (line[0] == 'E')
+        switch (line[0])
         {
-            for (int i=2; i<line.length(); i++)
-            {
-                if (line[i] != ' ')
+            case 'E':
+                for (int i=2; i<line.length(); i++)
                 {
-                    notestrings[0].push_back(line[i]);
+                    if (line[i] != ' ')
+                    {
+                        notestrings[0].push_back(line[i]);
+                    }
                 }
-            }
-        }
-        else if (line[0] == 'A')
-        {
-            for (int i=2; i<line.length(); i++)
-            {
-                if (line[i] != ' ')
+                break;
+            case 'A':
+                for (int i=2; i<line.length(); i++)
                 {
-                    notestrings[1].push_back(line[i]);
+                    if (line[i] != ' ')
+                    {
+                        notestrings[1].push_back(line[i]);
+                    }
                 }
-            }
-        }
-        else if (line[0] == 'D')
-        {
-            for (int i=2; i<line.length(); i++)
-            {
-                if (line[i] != ' ')
+                break;
+            case 'D':
+                for (int i=2; i<line.length(); i++)
                 {
-                    notestrings[2].push_back(line[i]);
+                    if (line[i] != ' ')
+                    {
+                        notestrings[2].push_back(line[i]);
+                    }
                 }
-            }
-        }
-        else if (line[0] == 'G')
-        {
-            for (int i=2; i<line.length(); i++)
-            {
-                if (line[i] != ' ')
+                break;
+            case 'G':
+                for (int i=2; i<line.length(); i++)
                 {
-                    notestrings[3].push_back(line[i]);
+                    if (line[i] != ' ')
+                    {
+                        notestrings[3].push_back(line[i]);
+                    }
                 }
-            }
-        }
-        else if (line[0] == 'B')
-        {
-            for (int i=2; i<line.length(); i++)
-            {
-                if (line[i] != ' ')
+                break;
+            case 'B':
+                for (int i=2; i<line.length(); i++)
                 {
-                    notestrings[4].push_back(line[i]);
+                    if (line[i] != ' ')
+                    {
+                        notestrings[4].push_back(line[i]);
+                    }
                 }
-            }
-        }
-        else if (line[0] == 'e')
-        {
-            for (int i=2; i<line.length(); i++)
-            {
-                if (line[i] != ' ')
+                break;
+            case 'e':
+                for (int i=2; i<line.length(); i++)
                 {
-                    notestrings[5].push_back(line[i]);
+                    if (line[i] != ' ')
+                    {
+                        notestrings[5].push_back(line[i]);
+                    }
                 }
-            }
+                break;
         }
     }
     workfile.close();
@@ -139,14 +136,19 @@ void guitar::draw_string(vector<char> &notestring, int mult, char stringname,
 void guitar::to_ukulele()
 {
     vector<int> note_values;
-    note_values = get_note_values(notestrings);
+    note_values = get_note_values();
     write_ukulele_file(note_values);
 }
 
-vector<int> guitar::get_note_values(vector<char> ns_copy[6])
+vector<int> guitar::get_note_values()
 {
     // place to store tab, counting variables
     vector<int> uku_tab;
+    vector<char> ns_copy[6];
+    for (int i=0; i<6; i++)
+    {
+        ns_copy[i] = notestrings[i];
+    }
     int value;
     char chord_space;
     // iterate through each column and row of the 2d array
@@ -278,12 +280,11 @@ void guitar::write_ukulele_file(vector<int> note_values)
         }
         else if (note_values[i] == -1)
         {
-            workfile << "\n";
+            workfile << "x";
         }
         else
         {
             workfile << note_values[i];
-            workfile << ' ';
         }
     }
     workfile.close();

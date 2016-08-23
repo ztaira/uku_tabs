@@ -28,7 +28,7 @@ public:
             int offset, bool flag);
     // write ukulele tab
     void to_ukulele();
-    vector<int> get_note_values(vector<char> ns_copy[6]);
+    vector<int> get_note_values();
     int get_guitar_offset(int stringnum);
     int get_ukulele_offset(int stringnum);
     void write_ukulele_file(vector<int> note_values);
