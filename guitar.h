@@ -29,8 +29,9 @@ public:
     // write ukulele tab
     void to_ukulele();
     vector<int> get_note_values();
+    vector< vector<int> > get_ukulele_strings(vector<int> note_values);
+    void write_ukulele_strings(vector< vector<int> > ukulele_strings);
     int get_guitar_offset(int stringnum);
     int get_ukulele_offset(int stringnum);
-    void write_ukulele_file(vector<int> note_values);
 };
 #endif

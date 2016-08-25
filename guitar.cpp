@@ -136,8 +136,10 @@ void guitar::draw_string(vector<char> &notestring, int mult, char stringname,
 void guitar::to_ukulele()
 {
     vector<int> note_values;
+    vector< vector<int> > ukulele_strings;
     note_values = get_note_values();
-    write_ukulele_file(note_values);
+    ukulele_strings = get_ukulele_strings(note_values);
+    write_ukulele_strings(ukulele_strings);
 }
 
 vector<int> guitar::get_note_values()
@@ -174,9 +176,9 @@ vector<int> guitar::get_note_values()
             {
                 if (chord_space != 0)
                 {
-                    uku_tab.push_back(chord_space);
+                    // uku_tab.push_back(chord_space);
                 }
-                if (ns_copy[j][i] > 47 && ns_copy[j][i] < 58 &&
+                else if (ns_copy[j][i] > 47 && ns_copy[j][i] < 58 &&
                         ns_copy[j][i+1] > 47 && ns_copy[j][i+1] < 58)
                 {
                     value = (ns_copy[j][i]-48)*10 + ns_copy[j][i]-48 + 
@@ -203,15 +205,15 @@ vector<int> guitar::get_note_values()
                     uku_tab.push_back('|');
                     chord_space = '-';
                 }
-                else
-                {
-                    uku_tab.push_back('?');
-                    chord_space = '-';
-                }
             }
         }
-        uku_tab.push_back(-1);
         chord_space = 0;
+    }
+    ofstream workfile;
+    workfile.open("notevalues.txt");
+    for (int i=0; i<uku_tab.size(); i++)
+    {
+        workfile << uku_tab[i] << "\n";
     }
     return uku_tab;
 }
@@ -266,26 +268,67 @@ int guitar::get_ukulele_offset(int stringnum)
     return 0;
 }
 
-void guitar::write_ukulele_file(vector<int> note_values)
+vector< vector<int> > guitar::get_ukulele_strings(vector<int> note_values)
 {
     char character;
+    int value;
+    vector< vector<int> > ukulele_strings(4, vector<int>(0));
+    for (int j=0; j<note_values.size(); j++)
+    {
+        for (int i=0; i<4; i++)
+        {
+            while (note_values[j] < 20 && note_values[i] > 0)
+            {
+                note_values[j] += 12;
+            }
+            ukulele_strings[i].push_back(note_values[j]);
+        }
+    }
+    return ukulele_strings;
+}
+
+void guitar::write_ukulele_strings(vector< vector<int> > ukulele_strings)
+{
+    char character;
+    int final_value;
     ofstream workfile;
     workfile.open("test.txt");
-    for (int i=0; i<note_values.size(); i++)
+    for (int j=0; j<4; j++)
     {
-        if (note_values[i] == 45 || note_values[i] > 48)
-        {
-            character = note_values[i];
-            workfile << character;
+        switch (j) {
+            case 0: workfile << "A|--";
+                    break;
+            case 1: workfile << "E|--";
+                    break;
+            case 2: workfile << "C|--";
+                    break;
+            case 3: workfile << "G|--";
+                    break;
         }
-        else if (note_values[i] == -1)
+        for (int i=0; i<ukulele_strings[0].size(); i++)
         {
-            workfile << "x";
+            final_value = ukulele_strings[j][i]-get_ukulele_offset(3-j);
+            if (final_value < 0)
+            {
+                workfile << "---";
+            }
+            else if (final_value < 10)
+            {
+                workfile << final_value;
+                workfile << "--";
+            }
+            else if (final_value < 48 - get_ukulele_offset(3-j))
+            {
+                workfile << final_value;
+                workfile << '-';
+            }
+            else
+            {
+                character = ukulele_strings[j][i];
+                workfile << character <<  '-' << '-';
+            }
         }
-        else
-        {
-            workfile << note_values[i];
-        }
+        workfile << "|\n";
     }
     workfile.close();
 }

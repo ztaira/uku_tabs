@@ -25,6 +25,7 @@ string choices[] = {
     "Scroll Ukulele",
     "Autoscroll",
     "Convert to UTab",
+    "gheaven.txt",
     "ghotelintro.txt",
     "ghotelsolo1.txt",
     "ghotelsolo2.txt",
@@ -35,6 +36,7 @@ string choices[] = {
 };
 
 string descriptions[] = {
+    " ",
     " ",
     " ",
     " ",
