@@ -17,7 +17,7 @@ guitar::guitar(int y, int x, int wheight, int wwidth)
 void guitar::add_notes(string notes_file)
 {
     note_pos = 0;
-    for (int i=0; i<6; i++)
+    for (int i = 0; i<6; i++)
     {
         notestrings[i].clear();
     }
@@ -28,7 +28,7 @@ void guitar::add_notes(string notes_file)
         switch (line[0])
         {
             case 'E':
-                for (int i=2; i<line.length(); i++)
+                for (int i = 2; i < line.length(); i++)
                 {
                     if (line[i] != ' ')
                     {
@@ -37,7 +37,7 @@ void guitar::add_notes(string notes_file)
                 }
                 break;
             case 'A':
-                for (int i=2; i<line.length(); i++)
+                for (int i = 2; i < line.length(); i++)
                 {
                     if (line[i] != ' ')
                     {
@@ -46,7 +46,7 @@ void guitar::add_notes(string notes_file)
                 }
                 break;
             case 'D':
-                for (int i=2; i<line.length(); i++)
+                for (int i = 2; i < line.length(); i++)
                 {
                     if (line[i] != ' ')
                     {
@@ -55,7 +55,7 @@ void guitar::add_notes(string notes_file)
                 }
                 break;
             case 'G':
-                for (int i=2; i<line.length(); i++)
+                for (int i = 2; i < line.length(); i++)
                 {
                     if (line[i] != ' ')
                     {
@@ -64,7 +64,7 @@ void guitar::add_notes(string notes_file)
                 }
                 break;
             case 'B':
-                for (int i=2; i<line.length(); i++)
+                for (int i = 2; i < line.length(); i++)
                 {
                     if (line[i] != ' ')
                     {
@@ -73,7 +73,7 @@ void guitar::add_notes(string notes_file)
                 }
                 break;
             case 'e':
-                for (int i=2; i<line.length(); i++)
+                for (int i = 2; i < line.length(); i++)
                 {
                     if (line[i] != ' ')
                     {
@@ -88,7 +88,7 @@ void guitar::add_notes(string notes_file)
 
 void guitar::draw(bool flag)
 {
-    for (int mult=0; mult<3; mult++)
+    for (int mult = 0; mult < 3; mult++)
     {
         // print e string
         draw_string(notestrings[5], mult, 'e', 0, flag);
@@ -108,7 +108,7 @@ void guitar::draw(bool flag)
 void guitar::move()
 {
     draw(false);
-    note_pos+=1;
+    note_pos += 1;
     draw(true);
 }
 
@@ -117,7 +117,7 @@ void guitar::draw_string(vector<char> &notestring, int mult, char stringname,
 {
     mvaddch(ul_y+mult*height+offset, ul_x, stringname);
     addch('|');
-    for (int i=note_pos+mult*width; i<note_pos+mult*width+width; i++)
+    for (int i = note_pos+mult*width; i<note_pos+mult*width+width; i++)
     {
         if (i<notestring.size() && flag == true)
         {
@@ -291,44 +291,50 @@ void guitar::write_ukulele_strings(vector< vector<int> > ukulele_strings)
 {
     char character;
     int final_value;
+    int position = 0;
     ofstream workfile;
     workfile.open("test.txt");
-    for (int j=0; j<4; j++)
+    while (position < ukulele_strings[0].size())
     {
-        switch (j) {
-            case 0: workfile << "A|--";
-                    break;
-            case 1: workfile << "E|--";
-                    break;
-            case 2: workfile << "C|--";
-                    break;
-            case 3: workfile << "G|--";
-                    break;
-        }
-        for (int i=0; i<ukulele_strings[0].size(); i++)
+        for (int j=0; j<4; j++)
         {
-            final_value = ukulele_strings[j][i]-get_ukulele_offset(3-j);
-            if (final_value < 0)
-            {
-                workfile << "---";
+            switch (j) {
+                case 0: workfile << "A|--";
+                        break;
+                case 1: workfile << "E|--";
+                        break;
+                case 2: workfile << "C|--";
+                        break;
+                case 3: workfile << "G|--";
+                        break;
             }
-            else if (final_value < 10)
+            for (int i=position; i<position+20 && i < ukulele_strings[j].size(); i++)
             {
-                workfile << final_value;
-                workfile << "--";
+                final_value = ukulele_strings[j][i]-get_ukulele_offset(3-j);
+                if (final_value < 0)
+                {
+                    workfile << "---";
+                }
+                else if (final_value < 10)
+                {
+                    workfile << final_value;
+                    workfile << "--";
+                }
+                else if (final_value < 48 - get_ukulele_offset(3-j))
+                {
+                    workfile << final_value;
+                    workfile << '-';
+                }
+                else
+                {
+                    character = ukulele_strings[j][i];
+                    workfile << character <<  '-' << '-';
+                }
             }
-            else if (final_value < 48 - get_ukulele_offset(3-j))
-            {
-                workfile << final_value;
-                workfile << '-';
-            }
-            else
-            {
-                character = ukulele_strings[j][i];
-                workfile << character <<  '-' << '-';
-            }
+            workfile << "|\n";
         }
-        workfile << "|\n";
+        position += 20;
+        workfile << "\n";
     }
     workfile.close();
 }
