@@ -12,7 +12,6 @@ using namespace std;
 #define ARRAY_SIZE(a) (sizeof(a) / sizeof(a[0]))
 
 void configure_settings();
-void open_screen();
 void draw_border(WINDOW *win, bool flag);
 void configure_main_menu(MENU *my_menu, WINDOW *menu_win, WINDOW *menu_sub);
 void moveguitar(char *name, guitar &myguitar);
@@ -35,20 +34,7 @@ string choices[] = {
     "usanteria.txt"
 };
 
-string descriptions[] = {
-    " ",
-    " ",
-    " ",
-    " ",
-    " ",
-    " ",
-    " ",
-    " ",
-    " ",
-    " ",
-    " ",
-    " "
-};
+string descriptions[100] = {" "};
 
 int main()
 {
@@ -59,10 +45,6 @@ int main()
     initscr();
     configure_settings();
     getmaxyx(stdscr, win_height, win_width);
-    // print the opening screen, which won't go away until a key is pressed
-    open_screen();
-    refresh();
-    getch();
     werase(stdscr);
     refresh();
 
@@ -141,11 +123,11 @@ int main()
                 {
                     myguitar.to_ukulele();
                 }
-                else if (selection_name[0]=='g')
+                else if (selection_name[0] == 'g')
                 {
                     guitarload(selection_name, myguitar);
                 }
-                else if (selection_name[0]=='u')
+                else if (selection_name[0] == 'u')
                 {
                     ukuleleload(selection_name, myukulele);
                 }
@@ -154,7 +136,7 @@ int main()
             }
             default:
             {
-                if (autoscroll==true)
+                if (autoscroll == true)
                 {
                     myguitar.move();
                     myukulele.move();
@@ -195,22 +177,6 @@ void configure_settings()
     init_pair(8, COLOR_CYAN, COLOR_BLACK);
     timeout(250);
     wbkgd(stdscr, COLOR_PAIR(1));
-}
-
-void open_screen()
-{
-    int y, x;
-    getmaxyx(stdscr, y, x);
-    y = y/2;
-    x = x/2;
-    string str;
-    str = "Ukulele Tab Converter";
-    mvprintw(y-2, x-str.length()/2, str.c_str());
-    str = "by Zachary Taira";
-    mvprintw(y+0, x-str.length()/2, str.c_str());
-    str = "Hack-A-Week 6";
-    mvprintw(y+2, x-str.length()/2, str.c_str());
-    mvprintw(y*2-1, 1, " ");
 }
 
 void draw_border(WINDOW *win, bool flag)

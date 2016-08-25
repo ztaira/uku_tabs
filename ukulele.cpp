@@ -22,48 +22,49 @@ void ukulele::add_notes(string notes_file)
     Estr.clear();
     Astr.clear();
     string line;
+    int length;
     ifstream workfile (notes_file);
     while (getline(workfile, line))
     {
-        if (line[0] == 'G')
+        length = line.length();
+        switch (line[0])
         {
-            for (int i=2; i<line.length(); i++)
-            {
-                if (line[i] != ' ')
-                {
-                    Gstr.push_back(line[i]);
-                }
-            }
-        }
-        else if (line[0] == 'C')
-        {
-            for (int i=2; i<line.length(); i++)
-            {
-                if (line[i] != ' ')
-                {
-                    Cstr.push_back(line[i]);
-                }
-            }
-        }
-        else if (line[0] == 'E')
-        {
-            for (int i=2; i<line.length(); i++)
-            {
-                if (line[i] != ' ')
-                {
-                    Estr.push_back(line[i]);
-                }
-            }
-        }
-        else if (line[0] == 'A')
-        {
-            for (int i=2; i<line.length(); i++)
-            {
-                if (line[i] != ' ')
-                {
-                    Astr.push_back(line[i]);
-                }
-            }
+            case 'G':
+                    for (int i = 2; i < length; i++)
+                    {
+                        if (line[i] != ' ')
+                        {
+                            Gstr.push_back(line[i]);
+                        }
+                    }
+                    break;
+            case 'C':
+                    for (int i = 2; i < length; i++)
+                    {
+                        if (line[i] != ' ')
+                        {
+                            Cstr.push_back(line[i]);
+                        }
+                    }
+                    break;
+            case 'E':
+                    for (int i=2; i<length; i++)
+                    {
+                        if (line[i] != ' ')
+                        {
+                            Estr.push_back(line[i]);
+                        }
+                    }
+                    break;
+            case 'A':
+                    for (int i=2; i<length; i++)
+                    {
+                        if (line[i] != ' ')
+                        {
+                            Astr.push_back(line[i]);
+                        }
+                    }
+                    break;
         }
     }
     workfile.close();
@@ -71,7 +72,7 @@ void ukulele::add_notes(string notes_file)
 
 void ukulele::draw(bool flag)
 {
-    for (int mult=0; mult<3; mult++)
+    for (int mult = 0; mult < UKULELE_DISPLAY_ROWS; mult++)
     {
         // print A string
         draw_string(Astr, mult, 'A', 0, flag);
@@ -94,9 +95,9 @@ void ukulele::move()
 void ukulele::draw_string(vector<char> &notestring, int mult, char stringname,
         int offset, bool flag)
 {
-    mvaddch(ul_y+mult*height+offset, ul_x, stringname);
+    mvaddch(ul_y + mult * height + offset, ul_x, stringname);
     addch('|');
-    for (int i=note_pos+mult*width; i<note_pos+mult*width+width; i++)
+    for (int i = note_pos + mult * width; i < note_pos + mult * width + width; i++)
     {
         if (i<notestring.size() && flag == true)
         {

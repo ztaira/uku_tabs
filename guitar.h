@@ -1,6 +1,11 @@
 #ifndef GUITAR
 #define GUITAR
+
+#define GUITAR_DISPLAY_ROWS 3
+#define GUITAR_NUM_STRINGS 6
+
 using namespace std;
+
 // guitar object
 class guitar
 {

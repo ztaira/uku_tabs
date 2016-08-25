@@ -1,6 +1,10 @@
 #ifndef UKULELE
 #define UKULELE
+
+#define UKULELE_DISPLAY_ROWS 3
+
 using namespace std;
+
 // ukulele object
 class ukulele
 {
