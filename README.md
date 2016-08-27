@@ -1,5 +1,6 @@
 # uku\_tabs
-Hack-A-Week 5, 6: A program to display guitar tabs/convert tabs to ukulele
+Hack-A-Week 5: A program to conveniently display guitar and ukulele tabs
+Hack-A-Week 6: A function to convert guitar tabs to ukulele
 
 The solution to, "Why are ukulele tabs so hard to find?"
 
@@ -46,3 +47,6 @@ g(something).txt.............Guitar tab files
 u(something).txt.............Ukulele tab files
 
 ### Example Output:
+
+![alt text][outputimage]
+[outputimage]: https://github.com/ztaira14/uku_tabs/blob/master/diagrams/UI.png "UI Example"
