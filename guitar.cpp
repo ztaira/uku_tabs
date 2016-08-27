@@ -21,6 +21,8 @@ void guitar::add_notes(string notes_file)
     //
     // notestrings[0] is the low E string
     // notestrings[5] is the high e string
+    //
+    // don't include trailing whitespaces
     note_pos = 0;
     for (int i = 0; i < GUITAR_NUM_STRINGS; i++)
     {
@@ -182,8 +184,8 @@ vector<int> guitar::get_note_values()
     // B|-------4--------------------------
     // E|----------------------------------
     vector<int> uku_tab;
-    vector<char> ns_copy[GUITAR_NUM_STRINGS];
-    for (int i = 0; i < GUITAR_NUM_STRINGS; i++)
+    vector<char> ns_copy[4];
+    for (int i = 0; i < 4; i++)
     {
         ns_copy[i] = notestrings[i];
     }
@@ -191,7 +193,7 @@ vector<int> guitar::get_note_values()
     bool chord;
     for (int i = 0; i < ns_copy[0].size(); i++)
     {
-        for (int j = 0; j < GUITAR_NUM_STRINGS; j++)
+        for (int j = 0; j < 4; j++)
         {
             if (ns_copy[j][i] != '-')
             {
@@ -307,7 +309,7 @@ void guitar::write_ukulele_strings(vector< vector<int> > ukulele_strings)
     int final_value;
     int position = 0;
     ofstream workfile;
-    workfile.open("test.txt");
+    workfile.open("ukulele_output.txt");
     while (position < ukulele_strings[0].size())
     {
         for (int j = 0; j < 4; j++)

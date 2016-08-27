@@ -31,7 +31,8 @@ string choices[] = {
     "ghotelend.txt",
     "udoiwannaknow.txt",
     "uimyours.txt",
-    "usanteria.txt"
+    "usanteria.txt",
+    "uheavensolo.txt"
 };
 
 string descriptions[100] = {" "};
@@ -70,10 +71,10 @@ int main()
     configure_main_menu(my_menu, main_menu_win, main_menu_sub);
 
     // making the instruments
-    guitar myguitar = guitar(4, 35, win_height, win_width);
+    guitar myguitar = guitar(5, 35, win_height, win_width);
     myguitar.add_notes("ghotelintro.txt");
     myguitar.draw(true);
-    ukulele myukulele = ukulele(29, 35, win_height, win_width);
+    ukulele myukulele = ukulele(30, 35, win_height, win_width);
     myukulele.add_notes("udoiwannaknow.txt");
     myukulele.draw(true);
 
@@ -218,19 +219,26 @@ void configure_main_menu(MENU *my_menu, WINDOW *main_menu_win,
     mvprintw(1, 14, "MENU");
     wattroff(stdscr, A_BOLD);
     wattroff(stdscr, COLOR_PAIR(8));
+    wattron(stdscr, COLOR_PAIR(1));
+    mvprintw(2, 90, "GUITAR");
+    mvprintw(27, 90, "UKULELE");
+    wattroff(stdscr, COLOR_PAIR(1));
+    wrefresh(stdscr);
 }
 
 void moveguitar(char *name, guitar &myguitar)
 {   
     myguitar.move();
-    mvprintw(40, 1, "Item selected is: %s", name);
+    mvprintw(40, 1, "                                   ");
+    mvprintw(40, 1, "Selected: %s", name);
     wrefresh(stdscr);
 }
 
 void moveukulele(char *name, ukulele &myukulele)
 {
     myukulele.move();
-    mvprintw(40, 1, "Item selected is: %s", name);
+    mvprintw(40, 1, "                                   ");
+    mvprintw(40, 1, "Selected: %s", name);
     wrefresh(stdscr);
 }
 
@@ -239,7 +247,8 @@ void guitarload(char *name, guitar &myguitar)
     myguitar.add_notes(name);
     myguitar.draw(false);
     myguitar.draw(true);
-    mvprintw(40, 1, "Item selected is: %s", name);
+    mvprintw(40, 1, "                                   ");
+    mvprintw(40, 1, "Selected: %s", name);
     wrefresh(stdscr);
 }
 
@@ -248,6 +257,7 @@ void ukuleleload(char *name, ukulele &myukulele)
     myukulele.add_notes(name);
     myukulele.draw(false);
     myukulele.draw(true);
-    mvprintw(40, 1, "Item selected is: %s", name);
+    mvprintw(40, 1, "                                   ");
+    mvprintw(40, 1, "Selected: %s", name);
     wrefresh(stdscr);
 }
