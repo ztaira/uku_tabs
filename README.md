@@ -34,17 +34,19 @@ height=48, rows=170)
 - Decide which string you should play notes on in the created ukulele tab
 
 ### Included files:
-README.md....................This readme file
-conversion.txt...............A reference for converting notes to a numerical value
-guitar.cpp...................Guitar class file
-guitar.h.....................Guitar header file
-main.cpp.....................Main file
-makefile.....................Makefile
-ukulele.cpp..................Ukulele class file
-ukulele.h....................Ukulele header file
-uku\_tabs....................Default executable
-g(something).txt.............Guitar tab files
-u(something).txt.............Ukulele tab files
+```
+- README.md....................This readme file
+- conversion.txt...............A reference for converting notes to a numerical value
+- guitar.cpp...................Guitar class file
+- guitar.h.....................Guitar header file
+- main.cpp.....................Main file
+- makefile.....................Makefile
+- ukulele.cpp..................Ukulele class file
+- ukulele.h....................Ukulele header file
+- uku\_tabs....................Default executable
+- g(something).txt.............Guitar tab files
+- u(something).txt.............Ukulele tab files
+```
 
 ### Example Output:
 
