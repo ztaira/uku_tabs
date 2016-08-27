@@ -1,7 +1,7 @@
 # uku\_tabs
-Hack-A-Week 5: A program to conveniently display guitar and ukulele tabs
+Hack-A-Week 6: A program to conveniently display guitar and ukulele tabs
 
-Hack-A-Week 6: A function to convert guitar tabs to ukulele
+Hack-A-Week 7: A function to convert guitar tabs to ukulele
 
 The solution to, "Why are ukulele tabs so hard to find?"
 
