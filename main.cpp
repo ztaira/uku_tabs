@@ -32,7 +32,8 @@ string choices[] = {
     "udoiwannaknow.txt",
     "uimyours.txt",
     "usanteria.txt",
-    "uheavensolo.txt"
+    "uheavensolo.txt",
+    "ustairwayintro.txt"
 };
 
 string descriptions[100] = {" "};
