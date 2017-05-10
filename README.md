@@ -51,5 +51,4 @@ height=48, rows=170)
 
 ### Example Output:
 
-![alt text][outputimage]
-[outputimage]: https://github.com/ztaira14/uku_tabs/blob/master/diagrams/UI.png "UI Example"
+![alt text](https://github.com/ztaira14/uku_tabs/blob/master/diagrams/UI.png "UI Example")
